@@ -69,10 +69,11 @@ sed -i 's/Flame Graph/Flame Graph - FIESTA, 1 node (lassen581)/g' lassen581.2741
 
 ## More information about running perf with mpi
 
-The main problem we needed to solve to run perf together with mpi on an hpc cluster was to ensure each perf call was able create an output file with a unique name, otherwise the default output name "perf.data" woud conflict for each node.
-The way we did this was to wrap calling our application in a bash script so we could take advantage of `$(hostname)` and `${RANDOM}`.
+The main problem we needed to solve to run perf together with mpi on an hpc cluster was how to run an instance of perf on each node.
+The solution was to call perf inside the work scheduler and ensure each perf call was able create an output file with a unique name, otherwise the default output name "perf.data" woud conflict for each node.
+The way we did this was to wrap calling our application in a bash script so we could take advantage of `$(hostname)` and `${RANDOM}` to create a unique name to pass to the `-o` flag of `perf record`.
 
-Note that this will only work with one thread per node. If one is launching multiple tasks on a single node (or when using mpi on a laptop or workstation) the perf call can be done outside of the workload manager like `perf record -F 99 -g -- mpiexec -n 4 myprogram`. By default perf will follow and sample all child processes. The output will be a single "perf.data" file.
+Note that this will only work with one thread per node. If one is launching multiple tasks with shared memory (on a single node or when using mpi on a laptop or workstation) the perf call can be done outside of the workload manager like `perf record -F 99 -g -- mpiexec -n 4 myprogram`. By default perf will follow all child processes. The output will be a single "perf.data" file.
 
 ## References
 
