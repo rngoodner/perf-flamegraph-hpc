@@ -78,7 +78,7 @@ Note that this will only work with one thread per node. If one is launching mult
 
 The above information is what I discovered to be unique or tricky to using perf and flame graphs on an hpc cluster.
 Standard usage of this technique is very well documented.
-Here are the references I found useful for learneng about perf and flame graphs.
+Here are the references I found useful for learning about perf and flame graphs.
 
 * https://www.brendangregg.com/flamegraphs.html
 * https://www.brendangregg.com/perf.html
